@@ -14,8 +14,8 @@ PORT_DOCKER = 80
 
 #TODO ********************setup this URL depending on which version you are running***************************
 
-CELERY_BROKER_URL = CELERY_BROKER_URL_DOCKER
-PORT = PORT_DOCKER
+CELERY_BROKER_URL = CELERY_BROKER_URL_LOCAL
+PORT = PORT_LOCAL
 
 #TODO ********************setup this URL depending on which version you are running***************************
 
@@ -39,24 +39,18 @@ SIGNATURE = {
     "cm_name": CM_NAME,
     "wiki_url": "https://wiki.hotmaps.hevs.ch/en/CM-Scale-heat-and-cool-density-maps",
     "layers_needed": [
-        "heat_tot_curr_density",
+        "heat_tot_curr_density"
     ],
     "type_layer_needed": [
         {"type": "heat", "description": "You can choose the layer of type 'heat'."}
+
     ],
     "vectors_needed": [
-        "a_vehicle_stock","b_vehicle_stock","bau_final_energy_consumption","b_final_energy_consumption"
-
+        "industrial_database_emissions"
     ],
 
-
     "type_vectors_needed": [
-        {"type": "a_vehicle_stock", "description": "You can choose the vector of type 'a_vehicle_stock'."},
-        {"type": "b_vehicle_stock", "description": "You can choose the vector of type 'b_vehicle_stock'."},
-        {"type": "bau_final_energy_consumption", "description": "You can choose the vector of type 'bau_final_energy_consumption'."},
-        {"type": "b_final_energy_consumption", "description": "You can choose the vector of type 'b_final_energy_consumption'."},
-
-
+        {"type": "industrial_database_emissions", "description": "You can choose the vector of layer 'industrial_database_emissions'."}
     ],
     "cm_url": "Do not add something",
     "cm_description": "this computation module allows to divide the HDM",
