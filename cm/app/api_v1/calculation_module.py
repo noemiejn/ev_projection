@@ -18,13 +18,18 @@ def calculation(output_directory, inputs_raster_selection,inputs_vector_selectio
 
     # generate the output raster file
     output_raster1 = generate_output_file_tif(output_directory)
-
+    # retrieve the inputs all input defined in the signature
+    factor = float(inputs_parameter_selection["multiplication_factor"])
 
     #retrieve the inputs layes
     input_raster_selection =  inputs_raster_selection["heat"]
     print(inputs_vector_selection)
-    inputs_vector_selection = inputs_vector_selection["industrial_database_emissions"]
-
+    if "industrial_database_emissions" in inputs_vector_selection:
+        inputs_vector_selection = inputs_vector_selection["industrial_database_emissions"]
+        emissions_ets_2014_calculed = 0
+        if os.path.exists(inputs_vector_selection):
+            df = pd.read_csv(inputs_vector_selection)
+            emissions_ets_2014_calculed = df['emissions_ets_2014'].sum() * factor
 
     #retrieve the inputs layes
     """
@@ -40,12 +45,8 @@ def calculation(output_directory, inputs_raster_selection,inputs_vector_selectio
 
     # TEST FOR VECTOR
 
-    #retrieve the inputs all input defined in the signature
-    factor =  float(inputs_parameter_selection["multiplication_factor"])
-    emissions_ets_2014_calculed = 0
-    if os.path.exists(inputs_vector_selection):
-        df = pd.read_csv(inputs_vector_selection)
-        emissions_ets_2014_calculed = df['emissions_ets_2014'].sum() * factor
+
+
 
     # TODO this part bellow must be change by the CM provider
     ds = gdal.Open(input_raster_selection)
