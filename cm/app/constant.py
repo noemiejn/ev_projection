@@ -50,7 +50,6 @@ SIGNATURE = {
     ],
 
     "type_vectors_needed": [
-        {"type": "industrial_database_emissions", "description": "You can choose the vector of layer 'industrial_database_emissions'."}
     ],
     "cm_url": "Do not add something",
     "cm_description": "this computation module allows to divide the HDM",

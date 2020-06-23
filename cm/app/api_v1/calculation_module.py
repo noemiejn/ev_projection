@@ -23,13 +23,7 @@ def calculation(output_directory, inputs_raster_selection,inputs_vector_selectio
 
     #retrieve the inputs layes
     input_raster_selection =  inputs_raster_selection["heat"]
-    print(inputs_vector_selection)
-    if "industrial_database_emissions" in inputs_vector_selection:
-        inputs_vector_selection = inputs_vector_selection["industrial_database_emissions"]
-        emissions_ets_2014_calculed = 0
-        if os.path.exists(inputs_vector_selection):
-            df = pd.read_csv(inputs_vector_selection)
-            emissions_ets_2014_calculed = df['emissions_ets_2014'].sum() * factor
+
 
     #retrieve the inputs layes
     """
@@ -89,8 +83,7 @@ def calculation(output_directory, inputs_raster_selection,inputs_vector_selectio
     result = dict()
     result['name'] = CM_NAME
     result['indicator'] = [
-        {"unit": "GWh", "name": "Heat density total multiplied by  {}".format(factor),"value": str(hdm_sum)},
-        {"unit": "t/yr", "name": "Industrial sites emissions (Column:emissions_ets_2014) by  {}".format(factor), "value": str(emissions_ets_2014_calculed)}
+        {"unit": "GWh", "name": "Heat density total multiplied by  {}".format(factor),"value": str(hdm_sum)}
     ]
     result['graphics'] = graphics
     result['vector_layers'] = vector_layers
