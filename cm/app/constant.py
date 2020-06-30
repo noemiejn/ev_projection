@@ -38,17 +38,10 @@ SIGNATURE = {
     "category": "Demand",
     "cm_name": CM_NAME,
     "wiki_url": "https://wiki.hotmaps.hevs.ch/en/CM-Scale-heat-and-cool-density-maps",
-    "layers_needed": [],
     "type_layer_needed": [
         {"type": "heat", "description": "You can choose the layer of type 'heat'."}
-
     ],
-    "vectors_needed": [
-        "industrial_database_emissions"
-    ],
-
-    "type_vectors_needed": [
-    ],
+    "type_vectors_needed": [],
     "cm_url": "Do not add something",
     "cm_description": "this computation module allows to divide the HDM",
     "cm_id": CM_ID,
