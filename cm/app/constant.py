@@ -38,6 +38,7 @@ SIGNATURE = {
     "category": "Demand",
     "cm_name": CM_NAME,
     "wiki_url": "https://wiki.hotmaps.hevs.ch/en/CM-Scale-heat-and-cool-density-maps",
+    "layers_needed": [],
     "type_layer_needed": [
         {"type": "heat", "description": "You can choose the layer of type 'heat'."}
     ],
