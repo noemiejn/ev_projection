@@ -36,7 +36,7 @@ class TestAPI(unittest.TestCase):
         inputs_parameter_selection = {}
         inputs_vector_selection = {}
         inputs_raster_selection["heat"]  = save_path
-        inputs_vector_selection["heating_technologies_eu28"]  = {}
+        inputs_vector_selection["industrial_database_emissions"] = ''
         inputs_parameter_selection["multiplication_factor"] = 2
 
         # register the calculation module a

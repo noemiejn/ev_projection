@@ -37,18 +37,14 @@ SIGNATURE = {
 
     "category": "Demand",
     "cm_name": CM_NAME,
-    "layers_needed": [
-        "heat_tot_curr_density",
-    ],
+    "wiki_url": "https://wiki.hotmaps.hevs.ch/en/CM-Scale-heat-and-cool-density-maps",
+    "layers_needed": [],
     "type_layer_needed": [
-        {"type": "heat", "description": "You can choose the layer of type 'heat'."}
+        {"type": "heat", "description": "Choose a heat demand density layer."}
     ],
-    "vectors_needed": [
-        "heating_technologies_eu28",
-
-    ],
+    "type_vectors_needed": [],
     "cm_url": "Do not add something",
-    "cm_description": "this computation module allows to divide the HDM",
+    "cm_description": "This calculation module allows to scale the heat demand density layer up or down.",
     "cm_id": CM_ID,
     'inputs_calculation_module': INPUTS_CALCULATION_MODULE
 }

@@ -1,8 +1,10 @@
+import os
 
 from osgeo import gdal
 
 from ..helper import generate_output_file_tif, create_zip_shapefiles
 from ..constant import CM_NAME
+import pandas as pd
 import time
 
 """ Entry point of the calculation module function"""
@@ -16,17 +18,28 @@ def calculation(output_directory, inputs_raster_selection,inputs_vector_selectio
 
     # generate the output raster file
     output_raster1 = generate_output_file_tif(output_directory)
-
+    # retrieve the inputs all input defined in the signature
+    factor = float(inputs_parameter_selection["multiplication_factor"])
 
     #retrieve the inputs layes
     input_raster_selection =  inputs_raster_selection["heat"]
 
+
     #retrieve the inputs layes
-    input_vector_selection =  inputs_vector_selection["heating_technologies_eu28"]
+    """
+        print("inputs_vector_selection ",inputs_vector_selection)
+        a_vehicle_stock =  inputs_vector_selection["a_vehicle_stock"]
+        print("a_vehicle_stock ",a_vehicle_stock)
+        b_final_energy_consumption =  inputs_vector_selection["b_final_energy_consumption"]
+        print("b_final_energy_consumption ",b_final_energy_consumption)
+        b_vehicle_stock =  inputs_vector_selection["b_vehicle_stock"]
+        print("b_vehicle_stock ",b_vehicle_stock)
+        bau_final_energy_consumption =  inputs_vector_selection["bau_final_energy_consumption"]
+        print("bau_final_energy_consumption ",bau_final_energy_consumption)"""
+
+    # TEST FOR VECTOR
 
 
-    #retrieve the inputs all input defined in the signature
-    factor =  float(inputs_parameter_selection["multiplication_factor"])
 
 
     # TODO this part bellow must be change by the CM provider
@@ -69,7 +82,9 @@ def calculation(output_directory, inputs_raster_selection,inputs_vector_selectio
     #TODO exemple  output_shpapefile_zipped = create_zip_shapefiles(output_directory, output_shpapefile)
     result = dict()
     result['name'] = CM_NAME
-    result['indicator'] = [{"unit": "GWh", "name": "Heat density total multiplied by  {}".format(factor),"value": str(hdm_sum)}]
+    result['indicator'] = [
+        {"unit": "GWh", "name": "Heat density total multiplied by  {}".format(factor),"value": str(hdm_sum)}
+    ]
     result['graphics'] = graphics
     result['vector_layers'] = vector_layers
     result['raster_layers'] = [{"name": "layers of heat_densiy {}".format(factor),"path": output_raster1, "type": "heat"}]
