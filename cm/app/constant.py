@@ -24,9 +24,9 @@ INPUTS_CALCULATION_MODULE = [
         "input_name": "Vehicles per habitant",
         "input_type": "input",
         "input_parameter_name": "vehicles_per_habitant",
-        "input_value": "0.56",
+        "input_value": 0.56,
         "input_priority": 0,
-        "input_unit": "",
+        "input_unit": "V./hab.",
         "input_min": 0,
         "input_max": 2,
         "cm_id": CM_ID,  # Do no change this value
@@ -35,27 +35,27 @@ INPUTS_CALCULATION_MODULE = [
         "input_name": "Vehicles rural-urban correction factor",
         "input_type": "input",
         "input_parameter_name": "vehicle_rural_urban_factor",
-        "input_value": "1",
+        "input_value": 20,
         "input_priority": 0.1,
-        "input_unit": "",
+        "input_unit": "%",
         "input_min": 0,
-        "input_max": 10,
+        "input_max": 90,
         "cm_id": CM_ID,  # Do no change this value
     },
     {
         "input_name": "Projection year",
-        "input_type": "input",
+        "input_type": "range",
         "input_parameter_name": "projection_year",
         "input_value": "2022",
         "input_priority": 0,
-        "input_unit": "",
+        "input_unit": "none",
         "input_min": 2022,
         "input_max": 2050,
         "cm_id": CM_ID,  # Do no change this value
     },
     {
         "input_name": "Mean battery capacity of the ev-fleat",
-        "input_type": "input",
+        "input_type": "range",
         "input_parameter_name": "battery_capacity",
         "input_value": "67",
         "input_priority": 0,
@@ -66,11 +66,11 @@ INPUTS_CALCULATION_MODULE = [
     },
     {
         "input_name": "Daily traveled distance",
-        "input_type": "input",
+        "input_type": "range",
         "input_parameter_name": "daily_traveled_diatance",
         "input_value": "20",
         "input_priority": 0,
-        "input_unit": "",
+        "input_unit": "km",
         "input_min": 0,
         "input_max": 50,
         "cm_id": CM_ID,  # Do no change this value
@@ -86,7 +86,7 @@ SIGNATURE = {
     "type_layer_needed": [
         {"type": "population", "description": "Choose a population density layer."}
     ],
-    "type_vectors_needed": [],
+    "type_vectors_needed": [],  # ["pop_tot_density_2018"],  # Put here new vector layer of population
     "cm_url": "Do not add something",
     "cm_description": "This calculation module allows to scale the electric vehicule density layer up or down.",
     "cm_id": CM_ID,
