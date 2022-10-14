@@ -75,6 +75,17 @@ INPUTS_CALCULATION_MODULE = [
         "input_max": 50,
         "cm_id": CM_ID,  # Do no change this value
     },
+    {
+        "input_name": "Fleat yearly renewal sahre",
+        "input_type": "range",
+        "input_parameter_name": "fleet_renewal_share",
+        "input_value": "6",
+        "input_priority": 0,
+        "input_unit": "%",
+        "input_min": 0,
+        "input_max": 100,
+        "cm_id": CM_ID,  # Do no change this value
+    },
 ]
 
 

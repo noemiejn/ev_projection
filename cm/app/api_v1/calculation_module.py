@@ -5,6 +5,7 @@ from osgeo import gdal
 from ..helper import generate_output_file_tif, create_zip_shapefiles
 from ..constant import CM_NAME
 import pandas as pd
+import numpy as np
 import time
 
 """ Entry point of the calculation module function"""
@@ -28,11 +29,12 @@ def calculation(
     vehicle_rural_urban_factor = float(
         inputs_parameter_selection["vehicle_rural_urban_factor"]
     )
-    projection_year = int(inputs_parameter_selection["projection_year"])
+    year = int(inputs_parameter_selection["projection_year"])
     battery_capacity = float(inputs_parameter_selection["battery_capacity"])
     daily_traveled_diatance = float(
         inputs_parameter_selection["daily_traveled_diatance"]
     )
+    fleet_renewal_share = float(inputs_parameter_selection["fleet_renewal_share"])
 
     # retrieve the inputs layes
     input_raster_selection = inputs_raster_selection["pop_tot_curr_density"]
@@ -52,17 +54,32 @@ def calculation(
 
     # TEST FOR VECTOR
 
-    # **********************TBC here***************************
-    # TODO this part bellow must be change by the CM provider
+    # In case of rater input
     ds = gdal.Open(input_raster_selection)
     ds_band = ds.GetRasterBand(1)
 
     # ----------------------------------------------------
-    pixel_values = ds.ReadAsArray()
+    pixel_values_pop = ds.ReadAsArray()
     # ----------Reduction factor----------------
+    b = 1 + vehicle_rural_urban_factor / 100
+    a = 2 * vehicle_rural_urban_factor / 100 / np.ln(np.max(pixel_values_pop))
+    car_density = (
+        pixel_values_pop * vehicles_per_habitant * (b - a * np.ln(pixel_values_pop))
+    )
 
-    pixel_values_modified = pixel_values * float(factor)
-    hdm_sum = float(pixel_values_modified.sum()) / 1000
+    Share_electric_cars_new_registrations_2020 = 10
+    yearly_factor = 0.01
+    if year < 2035:
+        for i in range(year - 2020):
+            yearly_factor += fleet_renewal_share * (year - 2020) * (90 / 15)
+    else:
+        for i in range(13):
+            yearly_factor += fleet_renewal_share * (2035 - 2020) * (90 / 15)
+        for i in range(year - 2035):
+            yearly_factor += fleet_renewal_share
+
+    e_car_density = car_density * yearly_factor
+    ev_sum = float(e_car_density.sum()) / 1000
 
     gtiff_driver = gdal.GetDriverByName("GTiff")
     # print ()
@@ -84,7 +101,7 @@ def calculation(
 
     out_ds_band = out_ds.GetRasterBand(1)
     out_ds_band.SetNoDataValue(0)
-    out_ds_band.WriteArray(pixel_values_modified)
+    out_ds_band.WriteArray(e_car_density)
 
     del out_ds
     # output geneneration of the output
@@ -97,18 +114,18 @@ def calculation(
     result["name"] = CM_NAME
     result["indicator"] = [
         {
-            "unit": "GWh",
-            "name": "Heat density total multiplied by  {}".format(factor),
-            "value": str(hdm_sum),
+            "unit": "Vehicles",
+            "name": "Electric vehiscles in total in {}".format(year),
+            "value": str(ev_sum),
         }
     ]
     result["graphics"] = graphics
     result["vector_layers"] = vector_layers
     result["raster_layers"] = [
         {
-            "name": "layers of heat_densiy {}".format(factor),
+            "name": "layers of EV density in {}".format(year),
             "path": output_raster1,
-            "type": "heat",
+            "type": "ev",
         }
     ]
     print("result", result)
