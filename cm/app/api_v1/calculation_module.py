@@ -30,11 +30,17 @@ def calculation(
         inputs_parameter_selection["vehicle_rural_urban_factor"]
     )
     year = int(inputs_parameter_selection["projection_year"])
-    battery_capacity = float(inputs_parameter_selection["battery_capacity"])
+    avg_battery_capacity = float(inputs_parameter_selection["battery_capacity"])
     daily_traveled_diatance = float(
         inputs_parameter_selection["daily_traveled_diatance"]
     )
     fleet_renewal_share = float(inputs_parameter_selection["fleet_renewal_share"])
+    yearly_factor = float(inputs_parameter_selection["fleet_ev_share_2020"])
+    Share_electric_cars_new_registrations_2020 = float(
+        inputs_parameter_selection["Share_electric_cars_new_registrations_2020"]
+    )
+    avg_traveled_distance = float(inputs_parameter_selection["avg_traveled_distance"])
+    avg_consumption = float(inputs_parameter_selection["avg_consumption"])
 
     # retrieve the inputs layes
     input_raster_selection = inputs_raster_selection["pop_tot_curr_density"]
@@ -67,19 +73,25 @@ def calculation(
         pixel_values_pop * vehicles_per_habitant * (b - a * np.ln(pixel_values_pop))
     )
 
-    Share_electric_cars_new_registrations_2020 = 10
-    yearly_factor = 0.01
     if year < 2035:
         for i in range(year - 2020):
-            yearly_factor += fleet_renewal_share * (year - 2020) * (90 / 15)
+            yearly_factor += fleet_renewal_share * i * (90 / 15)
     else:
         for i in range(13):
-            yearly_factor += fleet_renewal_share * (2035 - 2020) * (90 / 15)
+            yearly_factor += fleet_renewal_share * i * (90 / 15)
         for i in range(year - 2035):
             yearly_factor += fleet_renewal_share
 
     e_car_density = car_density * yearly_factor
     ev_sum = float(e_car_density.sum()) / 1000
+
+    battery_capacity_density = e_car_density * avg_battery_capacity
+
+    daily_traveled_distance_density = car_density * avg_traveled_distance
+
+    daily_ev_consumption_density = (
+        e_car_density * avg_traveled_distance * avg_consumption
+    )
 
     gtiff_driver = gdal.GetDriverByName("GTiff")
     # print ()
@@ -102,6 +114,18 @@ def calculation(
     out_ds_band = out_ds.GetRasterBand(1)
     out_ds_band.SetNoDataValue(0)
     out_ds_band.WriteArray(e_car_density)
+
+    out_ds_band2 = out_ds.GetRasterBand(2)
+    out_ds_band2.SetNoDataValue(0)
+    out_ds_band2.WriteArray(battery_capacity_density)
+
+    out_ds_band3 = out_ds.GetRasterBand(3)
+    out_ds_band3.SetNoDataValue(0)
+    out_ds_band3.WriteArray(daily_traveled_distance_density)
+
+    out_ds_band4 = out_ds.GetRasterBand(4)
+    out_ds_band4.SetNoDataValue(0)
+    out_ds_band4.WriteArray(daily_ev_consumption_density)
 
     del out_ds
     # output geneneration of the output

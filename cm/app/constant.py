@@ -86,6 +86,50 @@ INPUTS_CALCULATION_MODULE = [
         "input_max": 100,
         "cm_id": CM_ID,  # Do no change this value
     },
+    {
+        "input_name": "Fleat electric vehicle sahre 2020",
+        "input_type": "range",
+        "input_parameter_name": "fleet_ev_share_2020",
+        "input_value": "6",
+        "input_priority": 0,
+        "input_unit": "%",
+        "input_min": 0,
+        "input_max": 100,
+        "cm_id": CM_ID,  # Do no change this value
+    },
+    {
+        "input_name": "Share of electric cars new registrations 2020",
+        "input_type": "range",
+        "input_parameter_name": "Share_electric_cars_new_registrations_2020",
+        "input_value": "10",
+        "input_priority": 0,
+        "input_unit": "%",
+        "input_min": 0,
+        "input_max": 100,
+        "cm_id": CM_ID,  # Do no change this value
+    },
+    {
+        "input_name": "Average traveled distance",
+        "input_type": "range",
+        "input_parameter_name": "avg_traveled_distance",
+        "input_value": "30",
+        "input_priority": 0,
+        "input_unit": "km",
+        "input_min": 0,
+        "input_max": 200,
+        "cm_id": CM_ID,  # Do no change this value
+    },
+    {
+        "input_name": "Average car consumption",
+        "input_type": "range",
+        "input_parameter_name": "avg_car_consumption",
+        "input_value": "0.2458",
+        "input_priority": 0,
+        "input_unit": "kWh/km",
+        "input_min": 0,
+        "input_max": 10,
+        "cm_id": CM_ID,  # Do no change this value
+    },
 ]
 
 
